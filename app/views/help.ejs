@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Form</title>
+    <style>
+        body {
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-image: url('bimageqi.avif');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        h3{
+            margin-left: 409px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="tel"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #fff;
+            background-color: #222;
+            opacity: 70%;
+            color: #fff;
+            border-radius: 8px;
+        }
+
+        input[type="submit"] {
+            background-color: #fff;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555;
+            color: #fff;
+        }
+
+        @media screen and (max-width: 600px) {
+            h3{
+                margin-left: 0px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+
+<body>
+    <h3>Need help or have an inquiry about spectrum, fill the form below to proceed</h3>
+    <form id="helpForm" action="/help" method="POST">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" required><br>
+
+        <label for="problem">Problem Description:</label>
+        <textarea id="problem" name="problem" rows="4" required></textarea><br>
+
+        <input type="submit" value="Submit">
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+        document.getElementById('helpForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+
+            // Convert FormData to object
+            const formObject = {};
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+
+            // Perform form submission
+            fetch('/help', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formObject),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Display toast message if form submitted successfully
+                        Toastify({
+                            text: "Data submitted successfully. We'll get back to you as soon as possible.",
+                            duration: 3000, // 3 seconds
+                            close: true,
+                            gravity: "bottom", // Position of the toast message
+                            position: "left", // Position of the toast message
+                            backgroundColor: "#000", // Background color of the toast message
+                        }).showToast();
+                        setTimeout(() => {
+                            window.location.href = '/';
+                        }, 3000);
+                    } else {
+                        // Handle form submission failure
+                        console.error('Form submission failed:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting form:', error);
+                });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #dfdcdc;
+            right: 0;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            height: 70px;
+            background: #000000;
+            background: -webkit-linear-gradient(to right, #000000, #434343);
+            background: linear-gradient(to right, #000000, #434343);
+        }
+
+        .logo {
+            background-image: url(/favicon.webp);
+            background-position: center;
+            background-size: cover;
+            height: 60px;
+            width: 60px;
+            border-radius: 50%;
+            margin: 2px;
+            margin-left: 7px;
+        }
+
+        .sub-menu {
+            position: absolute;
+            top: 40px;
+            right: 35px;
+            background: #000000;
+            background: -webkit-linear-gradient(to right, #434343, #000000);
+            background: linear-gradient(to right, #434343, #000000);
+            border-radius: 5px;
+            padding: 10px;
+            display: none;
+            z-index: 1500;
+
+        }
+
+        .sub-menu p a {
+            display: block;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        #menu-open {
+            color: white;
+            cursor: pointer;
+            margin: 20px;
+        }
+
+        #menu-close {
+            display: none;
+            color: white;
+            margin: 20px;
+            cursor: pointer;
+        }
+
+        .display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .add-participant {
+            color: white;
+            margin: 15px;
+            background: #000000;
+            background: -webkit-linear-gradient(to right, #434343, #000000);
+            background: linear-gradient(to right, #434343, #000000);
+            padding: .4em;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form {
+            border-left: 50%;
+            border-radius: 15px;
+            padding: .5em;
+            background-color: rgba(0, 0, 0, 0.9);
+            margin: 15px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            /* justify-content: space-around; */
+            /* width: 400px; */
+            opacity: 70%;
+            display: none;
+        }
+
+        input {
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: larger;
+            color: #000;
+            border-radius: 5px;
+            padding: .8em;
+            background-color: rgba(153, 153, 153, 0.9);
+            margin: 15px;
+            display: flex;
+            align-items: center;
+            opacity: 80%;
+        }
+
+        input:focus {
+            border: none;
+        }
+
+        #take-pic {
+            color: white;
+            margin: 15px;
+            background: #000000;
+            background: -webkit-linear-gradient(to right, #434343, #000000);
+            background: linear-gradient(to right, #434343, #000000);
+            padding: .8em;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 10px auto;
+            width: 200px;
+        }
+
+        #save-data {
+            color: white;
+            margin: 15px;
+            background: #000000;
+            background: -webkit-linear-gradient(to right, #434343, #000000);
+            background: linear-gradient(to right, #434343, #000000);
+            padding: .8em;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            width: 200px;
+        }
+
+        h3 {
+            color: white;
+            text-align: center;
+        }
+
+        .preview {
+            height: 200px;
+            width: 200px;
+            display: none;
+            margin: 0 auto;
+            border-radius: 8px;
+            z-index: 1000;
+        }
+
+        .tabs {
+            width: 100%;
+            display: flex;
+        }
+
+        /* Style the tab buttons */
+        .tablink {
+            color: #f2f2f2;
+            border: none;
+            cursor: pointer;
+            padding: 1em;
+            transition: background-color 0.3s;
+            width: 33.3%;
+        }
+
+        #admin-link {
+            background-color: #8BC34A;
+            transition: background-color 0.3s;
+        }
+
+        #researcher-link {
+            background-color: #AED581;
+            transition: background-color 0.3s;
+        }
+
+        #supervisor-link {
+            background-color: #C5E1A5;
+            transition: background-color 0.3s;
+        }
+
+        .tablink.active {
+            background-color: #DCEDC8;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            margin-left: 10px;
+            width: 100%;
+        }
+
+        /* Show the active tab */
+        .tabcontent.active {
+            display: block;
+        }
+
+        #profile-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 97%;
+        }
+
+        #profile-picture {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            background-image: url(/profile.jpg);
+            background-size: cover;
+            background-position: center;
+        }
+
+        #profile-info h2 {
+            margin-top: 0;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: .3em;
+        }
+
+        .info-item span {
+            margin-right: 15px;
+            color: green;
+        }
+
+        .info-item h5 {
+            margin: 0;
+        }
+
+        .aura {
+            background-color: green;
+            width: 100px;
+            height: 100px;
+            padding: 1.5px;
+            border-radius: 50%;
+        }
+
+        .card {
+            margin-left: 20px;
+            margin-right: 10px;
+            background-color: #fff;
+            padding: .3em;
+            width: 98%;
+            margin: 3px;
+        }
+
+        .card h4 {
+            background-color: #fff;
+            padding: .5em;
+            display: flex;
+            justify-content: space-between;
+            border-radius: 5px;
+        }
+
+        #expand {
+            cursor: pointer;
+        }
+
+        #researchers h2 {
+            color: #000;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: .5em;
+            margin-left: 5px;
+            margin-right: 20px;
+        }
+
+        #participants {
+            display: hidden;
+            padding: .3em;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
+        .data {
+            background-color: #AED581;
+            margin: 1.5em;
+            padding: .5em;
+            border-radius: 5px;
+        }
+
+        #supervisors h2 {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: .5em;
+            margin-right: 20px;
+            margin-left: 5px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .tabcontent {
+                display: none;
+                padding: 20px;
+                width: 90%;
+            }
+
+            #profile-card {
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                width: 313px;
+                margin-left: -20px;
+            }
+
+            .researcher-container {
+                margin-right: 5px;
+            }
+
+            .card {
+                margin-left: -20px;
+                margin-right: 80px;
+                /* padding-right: 5em; */
+                background-color: #fff;
+                border-radius: 5px;
+                width: 96vw;
+            }
+
+            .card h4 {
+                background-color: #fff;
+                padding: .5em;
+                display: flex;
+                justify-content: space-between;
+                border-radius: 5px;
+            }
+
+            #researchers h2 {
+                background-color: #fff;
+                border-radius: 5px;
+                padding: .5em;
+                margin-right: -4px;
+                margin-left: -20px;
+                width: 92vw;
+                margin-top: -10px;
+            }
+
+            #supervisors h2 {
+                background-color: #fff;
+                border-radius: 5px;
+                padding: .5em;
+                margin-right: -4px;
+                margin-left: -20px;
+                width: 92vw;
+                margin-top: -10px;
+            }
+        }
+
+        #share {
+            margin-left: 140px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-nav">
+        <div class="logo"></div>
+        <span class="material-symbols-outlined" id="menu-open">
+            menu
+        </span>
+        <span class="material-symbols-outlined" id="menu-close">
+            close
+        </span>
+        <div class="sub-menu" id="sub-menu">
+            <p><a href="/admin-dashboard" title="Back to home page">Home</a></p>
+            <p><a href="/admin" title="Logout of the system">Logout</a></p>
+        </div>
+    </div>
+    <div class="display">
+        <div class="tabs">
+            <button class="tablink active" onclick="openTab(event, 'admin')" id="admin-link">
+                <h3>Admin</h3>
+            </button>
+            <button class="tablink" onclick="openTab(event, 'supervisors')" id="supervisor-link">
+                <h3>Supervisors</h3>
+            </button>
+            <button class="tablink" onclick="openTab(event, 'researchers')" id="researcher-link">
+                <h3>Researchers</h3>
+            </button>
+        </div>
+
+        <div id="admin" class="tabcontent active">
+            <div id="profile-card">
+                <div class="aura">
+                    <div id="profile-picture">
+
+                    </div>
+                </div>
+                <div id="profile-info">
+                    <h2>Personal Info</h2>
+                    <h4>Welcome, <%= name %>@<%= organisation %>
+                    </h4>
+                    <div class="info-item">
+                        <span class="material-symbols-outlined">
+                            call
+                        </span>
+                        <h5>
+                            <%= phone %>
+                        </h5>
+                    </div>
+                    <div class="info-item">
+                        <span class="material-symbols-outlined">
+                            mail
+                        </span>
+                        <h5>
+                            <%= email %>
+                        </h5>
+                    </div>
+                    <div class="info-item">
+                        <span class="material-symbols-outlined">
+                            vpn_key
+                        </span>
+                        <h5>
+                            <%= org_code %>
+                        </h5>
+                        <span class="material-symbols-outlined" id="share" title="Share the code">
+                            content_copy
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="researchers" class="tabcontent">
+            <h2>Researchers</h2>
+            <% supervisors.forEach(function(supervisor) { %>
+                <% supervisor.users.forEach(function(user) { %>
+                    <div class="card">
+                        <h4>
+                            <%= user.name %>
+                                <%= user.phone %>
+                                    <span class="material-symbols-outlined" id="expand">expand_circle_down</span>
+                        </h4>
+                        <div class="participants">
+                            <hr>
+                            <h4>Participants:</h4>
+                            <% user.participants.forEach(function(participant) { %>
+                                <div class="data">
+                                    <h5>Name: <%= participant.name %>
+                                    </h5>
+                                    <h5>Phone: <%= participant.phone %>
+                                    </h5>
+                                    <h5>Email: <%= participant.email %>
+                                    </h5>
+                                    <h5>Created at: <%= participant.created_at %>
+                                    </h5>
+                                    <div class="image"> <img src="/uploads/<%= participant.picture_data %>" alt="No image" style="max-width: 200px; max-height: 200px;"></div>
+                                    <br>
+                                </div>
+                                <% }) %>
+                        </div>
+                    </div>
+                    <% }) %>
+                        <% }) %>
+        </div>
+        <div id="supervisors" class="tabcontent">
+            <h2>Supervisors</h2>
+            <% supervisors.forEach(function(supervisor) { %>
+                <div class="card">
+                    <h4>
+                        <%= supervisor.name %>
+                            <%= supervisor.phone %>
+                                <span class="material-symbols-outlined" id="expand">expand_circle_down</span>
+                    </h4>
+                    <hr>
+
+                    <% supervisor.users.forEach(function(user) { %>
+
+                        <div class="data">
+                            <h5>Name: <%= user.name %>
+                            </h5>
+                            <h5>Phone: <%= user.phone %>
+                            </h5>
+                            <h5>Email: <%= user.email %>
+                            </h5>
+                        </div>
+                        <% }) %>
+
+                </div>
+                <% }) %>
+        </div>
+
+
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            const openMenu = document.getElementById('menu-open');
+            const closeMenu = document.getElementById('menu-close');
+            const subMenu = document.getElementById('sub-menu');
+            const shareBtn = document.getElementById('share');
+
+
+            openMenu.addEventListener('click', async (e) => {
+                e.preventDefault();
+                openMenu.style.display = 'none';
+                closeMenu.style.display = 'block';
+                subMenu.style.display = 'block';
+            })
+
+            closeMenu.addEventListener('click', async (e) => {
+                e.preventDefault();
+                closeMenu.style.display = 'none';
+                openMenu.style.display = 'block';
+                subMenu.style.display = 'none';
+            })
+
+            // Add click event listener
+            shareBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try {
+                    // Copy the org_code to clipboard
+                    const orgCode = '<%= org_code %>';
+                    await navigator.clipboard.writeText(orgCode);
+
+                    // Alert user that code has been copied to clipboard
+                    alert('Organization code copied to clipboard: ' + orgCode);
+                } catch (error) {
+                    console.error('Error copying org code to clipboard:', error);
+                    // Handle error
+                }
+            });
+
+
+        });
+
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablink" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+    </script>
+</body>
+
+</html>
